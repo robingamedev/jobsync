@@ -8,7 +8,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -291,8 +291,11 @@ model Job {
   discoveryStatus String?
   discoveredAt    DateTime?
 
+  @@index([userId])
   @@index([userId, automationId])
   @@index([userId, discoveryStatus])
+  // Ensure jobs are not duplicated for the same user based on the URL
+  @@unique([userId, jobUrl])
 }
 
 model ActivityType {
@@ -406,3 +409,5 @@ model AutomationRun {
   @@index([automationId])
   @@index([startedAt])
 }
+
+
