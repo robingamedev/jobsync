@@ -1,5 +1,6 @@
 services:
   app:
+    build: .
     image: ghcr.io/gsync/jobsync:latest
     container_name: jobsync_app
     ports:
